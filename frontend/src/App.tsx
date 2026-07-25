@@ -9,10 +9,13 @@ import { ClassLoaderExplorer } from './components/ClassLoaderExplorer';
 import { ThreadExplorer } from './components/ThreadExplorer';
 import { GcExplorer } from './components/GcExplorer';
 import { MemoryExplorer } from './components/MemoryExplorer';
+import { SyncLab } from './components/SyncLab';
+import { CollectionsExplorer } from './components/CollectionsExplorer';
+import { ExceptionExplorer } from './components/ExceptionExplorer';
 import { useStore } from './stores/appStore';
 import { connectWebSocket, disconnectWebSocket } from './services/websocket';
 
-type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory';
+type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory' | 'sync' | 'collections' | 'exceptions';
 
 export default function App() {
   const user = useStore((s) => s.user);
@@ -51,7 +54,10 @@ export default function App() {
     { key: 'bytecode', label: 'Bytecode' },
     { key: 'stackheap', label: 'Stack/Heap' },
     { key: 'threads', label: 'Threads' },
+    { key: 'sync', label: 'Sync' },
     { key: 'gc', label: 'GC' },
+    { key: 'collections', label: 'Collections' },
+    { key: 'exceptions', label: 'Exceptions' },
     { key: 'classloader', label: 'Classes' },
     { key: 'memory', label: 'Memory' },
   ];
@@ -82,6 +88,9 @@ export default function App() {
             {activeTab === 'gc' && <GcExplorer />}
             {activeTab === 'classloader' && <ClassLoaderExplorer />}
             {activeTab === 'memory' && <MemoryExplorer />}
+            {activeTab === 'sync' && <SyncLab />}
+            {activeTab === 'collections' && <CollectionsExplorer />}
+            {activeTab === 'exceptions' && <ExceptionExplorer />}
           </div>
         </div>
       </div>

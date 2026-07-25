@@ -1,0 +1,264 @@
+# JVM Explorer — Execution Plan
+
+> **Plan Version:** 1.0.0  
+> **Status:** Active  
+> **Derived From:** speckit.constitution
+
+---
+
+## Phase 0: Project Foundation
+
+### 0.1 Repository & Tooling
+- [ ] Initialize Git repository
+- [ ] Set up monorepo structure (frontend/, backend/, infra/)
+- [ ] Configure Java 21 + Maven/Gradle for backend
+- [ ] Configure React + Vite for frontend
+- [ ] Set up ESLint, Prettier, Checkstyle
+- [ ] Configure Husky + lint-staged
+
+### 0.2 CI/CD Pipeline
+- [ ] GitHub Actions CI — build, lint, test
+- [ ] Docker image builds for backend and frontend
+- [ ] Terraform scaffolding for AWS infrastructure
+- [ ] Staging environment deployment
+- [ ] Production environment deployment
+
+### 0.3 Container & Sandbox
+- [ ] Docker Compose for local development
+- [ ] Sandbox Docker image with resource limits
+- [ ] Sandbox API — compile and execute user code
+- [ ] Execution timeout, memory, CPU controls
+
+### 0.4 Observability
+- [ ] Structured logging (SLF4J + Logback)
+- [ ] Metrics (Micrometer + CloudWatch)
+- [ ] Distributed tracing
+- [ ] Health check endpoints
+
+---
+
+## Phase 1: Backend Core
+
+### 1.1 Spring Boot Application
+- [ ] Initialize Spring Boot 3.x project
+- [ ] Configure WebSocket support
+- [ ] Configure PostgreSQL + Flyway migrations
+- [ ] JWT authentication service
+- [ ] User profile and session management
+
+### 1.2 Compilation Service
+- [ ] Java Compiler API integration
+- [ ] In-memory compilation with source capture
+- [ ] Bytecode output capture (.class files)
+- [ ] Compilation error handling and reporting
+- [ ] Caching compiled classes
+
+### 1.3 Execution Sandbox Service
+- [ ] Docker container lifecycle management
+- [ ] Code submission queue
+- [ ] Sandbox execution API
+- [ ] Output capture (stdout, stderr)
+- [ ] Resource limit enforcement
+
+### 1.4 Instrumentation Service
+- [ ] JVMTI agent for runtime data collection
+- [ ] Stack frame capture at breakpoints
+- [ ] Heap object graph traversal
+- [ ] Thread state monitoring
+- [ ] GC event listener
+- [ ] Class loading event listener
+- [ ] Bytecode instruction tracing
+
+### 1.5 Visualization Engine
+- [ ] Runtime event stream processing
+- [ ] WebSocket message protocol design
+- [ ] Event → visualization data transformation
+- [ ] Real-time push to frontend clients
+
+### 1.6 Persistence Service
+- [ ] Project CRUD API
+- [ ] Snippet save/load/share API
+- [ ] Execution history storage
+- [ ] Learning progress tracking
+
+---
+
+## Phase 2: Frontend Core
+
+### 2.1 React Application
+- [ ] Initialize React + TypeScript project
+- [ ] Monaco Editor integration
+- [ ] WebSocket client for live updates
+- [ ] State management (Zustand/Redux)
+- [ ] Authentication UI (login/register)
+- [ ] Project dashboard layout
+
+### 2.2 Code Editor
+- [ ] Monaco Editor with Java syntax highlighting
+- [ ] Code template library
+- [ ] Save/load/share snippets
+- [ ] Run button with execution feedback
+- [ ] Error display in-editor
+
+### 2.3 Layout System
+- [ ] Split-pane layout (editor + visualizers)
+- [ ] Resizable panels
+- [ ] Tab system for multiple visualizers
+- [ ] Responsive design for different screen sizes
+
+---
+
+## Phase 3: Visualizers
+
+### 3.1 Source → Bytecode Explorer
+- [ ] Disassemble .class files with ASM/CFR
+- [ ] Display bytecode instructions
+- [ ] Constant pool table view
+- [ ] Method and field tables
+- [ ] Instruction-level step-through
+- [ ] Source line ↔ bytecode mapping
+
+### 3.2 Stack & Heap Visualizer
+- [ ] Stack frame diagram
+- [ ] Local variables table
+- [ ] Operand stack animation
+- [ ] Heap object graph (d3.js/vis.js)
+- [ ] Reference tracking
+- [ ] Step-by-step execution replay
+
+### 3.3 Class Loader Explorer
+- [ ] Class loader hierarchy tree
+- [ ] Loading/linking/initialization timeline
+- [ ] Parent delegation chain visualization
+- [ ] Loaded classes table
+
+### 3.4 Thread Explorer
+- [ ] Thread list with states
+- [ ] Thread timeline visualization
+- [ ] Stack trace per thread
+- [ ] Deadlock detection and visualization
+- [ ] Virtual thread support
+
+### 3.5 Synchronization Laboratory
+- [ ] Interactive code examples for each lock type
+- [ ] Lock ownership diagram
+- [ ] Waiting queue visualization
+- [ ] Memory visibility illustration
+
+### 3.6 GC Explorer
+- [ ] Heap generation diagram
+- [ ] Object allocation and promotion animation
+- [ ] GC pause timeline
+- [ ] Reachability graph
+- [ ] Memory pressure indicators
+
+### 3.7 Collections Explorer
+- [ ] Data structure diagrams
+- [ ] Bucket/collision visualization (HashMap)
+- [ ] Resize animation
+- [ ] Treeification display
+- [ ] Hashing visualization
+
+### 3.8 Exception Explorer
+- [ ] Stack unwinding animation
+- [ ] Exception type hierarchy
+- [ ] finally block execution flow
+- [ ] Suppressed exception display
+
+### 3.9 JVM Memory Explorer
+- [ ] Memory usage gauges and charts
+- [ ] Heap/Stack/Metaspace/Native breakdown
+- [ ] Direct buffer monitoring
+- [ ] Real-time memory allocation graph
+
+### 3.10 JIT Explorer
+- [ ] Method hotness tracking
+- [ ] Interpreted vs. compiled display
+- [ ] Compilation timeline
+- [ ] Optimization level indicators
+- [ ] Inline decision visualization
+
+---
+
+## Phase 4: Learning Platform
+
+### 4.1 Learning Modules
+- [ ] Structured curriculum (Beginner/Intermediate/Advanced)
+- [ ] Guided code examples per topic
+- [ ] Step-by-step explanations
+- [ ] Progress tracking
+
+### 4.2 Tutorial System
+- [ ] Interactive walkthroughs
+- [ ] Checkpoint-based learning
+- [ ] Knowledge checks
+- [ ] Code challenges
+
+### 4.3 Social Features
+- [ ] Snippet sharing with permalinks
+- [ ] Public gallery of examples
+- [ ] Fork/clone examples
+
+---
+
+## Phase 5: Infrastructure & Deployment
+
+### 5.1 AWS Infrastructure
+- [ ] VPC, subnets, security groups
+- [ ] ECS/EKS cluster
+- [ ] RDS PostgreSQL
+- [ ] ALB for load balancing
+- [ ] CloudWatch monitoring and alerts
+- [ ] IAM roles and policies
+- [ ] Route53 DNS
+
+### 5.2 Production Readiness
+- [ ] SSL/TLS configuration
+- [ ] Rate limiting
+- [ ] DDoS protection
+- [ ] Backup and restore procedures
+- [ ] Disaster recovery plan
+- [ ] Cost optimization
+
+---
+
+## Phase 6: Polish & Launch
+
+### 6.1 Testing
+- [ ] Unit tests (backend + frontend)
+- [ ] Integration tests
+- [ ] E2E tests (Playwright/Cypress)
+- [ ] Performance/load testing
+- [ ] Security audit
+
+### 6.2 Documentation
+- [ ] API documentation (OpenAPI)
+- [ ] Developer setup guide
+- [ ] User guide
+- [ ] Architecture decision records
+
+### 6.3 Launch
+- [ ] Production deployment
+- [ ] Monitoring and alerting setup
+- [ ] Landing page / marketing site
+- [ ] Demo video production
+- [ ] Launch announcement
+
+---
+
+## Milestones
+
+| Milestone | Phase | Target |
+|-----------|-------|--------|
+| M1: Dev environment ready | Phase 0 | Week 1 |
+| M2: Code compiles & runs | Phase 1 | Week 3 |
+| M3: Basic visualization pipeline | Phase 1-2 | Week 5 |
+| M4: Stack & Heap visualizers | Phase 3 | Week 8 |
+| M5: All core visualizers | Phase 3 | Week 12 |
+| M6: Learning platform | Phase 4 | Week 14 |
+| M7: Staging deployment | Phase 5 | Week 15 |
+| M8: Production launch | Phase 5-6 | Week 16 |
+
+---
+
+*This plan is derived from speckit.constitution and governs all execution phases.*

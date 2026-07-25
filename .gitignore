@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+dist/
+build/
+target/
+*.class
+*.jar
+*.war
+*.log
+.env
+.env.local
+.terraform/
+terraform.tfstate*
+*.iml
+.idea/
+.vscode/

@@ -1,0 +1,251 @@
+# JVM Explorer — Project Constitution
+
+> **Constitution Version:** 1.0.0  
+> **Status:** Active  
+> **Last Updated:** 2026-07-25
+
+---
+
+## Preamble
+
+JVM Explorer is an interactive platform that visualizes how Java programs execute internally. Rather than teaching Java through documentation or blog posts, JVM Explorer allows users to observe the Java Virtual Machine in action.
+
+The platform empowers users to write Java code, execute it, and watch every major runtime concept unfold visually — compilation, bytecode generation, class loading, stack frames, heap allocation, garbage collection, threads, locks, exceptions, JVM memory, and JIT compilation.
+
+The objective is to build the most interactive Java learning and visualization platform possible.
+
+---
+
+## 1. Identity
+
+**Project Name:** JVM Explorer  
+**Project Type:** Interactive Developer Tool / JVM Visualization Platform  
+**Primary Stack:** Java 21, Spring Boot, React, Docker, PostgreSQL, WebSockets, AWS  
+**Template:** Web Application
+
+### Mission Statement
+
+Answer the question: *"What is Java actually doing underneath my code?"*
+
+### Experience Pillars
+
+- VS Code — editor experience
+- Chrome DevTools — runtime inspection
+- Wireshark — protocol-level visibility
+- JVM VisualVM — JVM metrics visualization
+
+---
+
+## 2. Target Users
+
+- Java Developers
+- Computer Science Students
+- Backend Engineers
+- Interview Candidates
+- Universities & Java Instructors
+- Enterprise Engineering Teams
+
+---
+
+## 3. Problem Statement
+
+Developers learn Java by memorizing syntax without understanding the runtime. Critical concepts remain invisible:
+
+- HashMap performance degradation
+- Object allocation mechanics
+- Heap vs. Stack storage
+- Operand stack and bytecode execution
+- Deadlock mechanics
+- Garbage collection behavior
+- Synchronization internals
+- String interning and immutability
+
+JVM Explorer makes these concepts observable through live visualization.
+
+---
+
+## 4. Core Functional Requirements
+
+### 4.1 Interactive Code Editor
+- Write Java code in-browser
+- Modify and run examples
+- Save and share snippets
+
+### 4.2 Source → Bytecode Explorer
+- Display compiled bytecode
+- Constant pool inspection
+- Instruction-level stepping
+- Method tables
+
+### 4.3 Stack & Heap Visualizer
+- Live stack frames with local variables
+- Operand stack visualization
+- Heap object graph and references
+- Static variables display
+- Real-time updates during execution
+
+### 4.4 Class Loader Explorer
+- Bootstrap → Platform → Application → Custom ClassLoader chain
+- Loading, linking, initialization phases
+- Parent delegation model visualization
+
+### 4.5 Thread Explorer
+- Platform and Virtual Thread visualization
+- Thread states: Runnable, Waiting, Blocked, Timed Waiting, Deadlock
+- Multi-threaded execution support
+
+### 4.6 Synchronization Laboratory
+- Interactive examples: synchronized, volatile, AtomicInteger, ReentrantLock, ReadWriteLock, Semaphore
+- Lock ownership, waiting queue, shared memory visualization
+
+### 4.7 Garbage Collection Explorer
+- Object allocation and promotion
+- Young/Old Generation visualization
+- Reachability analysis
+- Collection events display
+- Intentional memory leak creation
+
+### 4.8 Collections Explorer
+- ArrayList, LinkedList, HashMap, HashSet, TreeMap, PriorityQueue, ConcurrentHashMap
+- Resizing, collisions, treeification, hashing, bucket allocation visualization
+
+### 4.9 Exception Explorer
+- Checked/Runtime exceptions
+- Stack unwinding animation
+- finally blocks and suppressed exceptions
+
+### 4.10 JVM Memory Explorer
+- Heap, Stack, Metaspace, Native Memory, Direct Buffers usage
+
+### 4.11 JIT Compilation Explorer
+- Interpreted vs. compiled execution
+- Hot method detection
+- Compilation and optimization display
+- Runtime statistics
+
+---
+
+## 5. Learning Modules
+
+### Beginner
+Variables, Objects, References, Methods, Classes, Inheritance
+
+### Intermediate
+Collections, Exceptions, Threads, Memory, Reflection, Annotations
+
+### Advanced
+Bytecode, Class Loading, JVM Memory Model, JIT Compilation, Garbage Collection, Java Agents, Unsafe, Virtual Threads
+
+---
+
+## 6. Non-Functional Requirements
+
+- Secure, sandboxed code execution
+- Fast compilation and response times
+- Responsive real-time UI
+- Horizontal scalability
+- Session persistence
+- Cloud-native deployment
+
+---
+
+## 7. Architecture
+
+### Frontend
+- React with Monaco Editor
+- Live Bytecode Panel, Stack Visualizer, Heap Visualizer, Thread Timeline, Memory Charts, Class Loader Graph, JVM Dashboard
+
+### Backend
+- Spring Boot (Java 21)
+- Compilation Service (Java Compiler API)
+- Execution Sandbox (Docker containers)
+- Instrumentation Service (JVMTI, JFR, Thread Dumps, GC Logs)
+- Visualization Engine (WebSocket real-time updates)
+- Persistence Service (PostgreSQL)
+
+### Infrastructure
+- Docker → Kubernetes → AWS
+- JWT Authentication
+- Resource quotas and input validation
+- Metrics, tracing, and observability
+
+---
+
+## 8. Execution Flow
+
+```
+User → React Editor → Spring Boot → Compilation → Sandbox → Instrumentation → Visualization → WebSocket Updates
+```
+
+---
+
+## 9. Data Storage
+
+- User projects and profiles
+- Saved code snippets
+- Execution history
+- Learning progress
+- Shared examples
+
+---
+
+## 10. Security Principles
+
+- JWT-based authentication
+- Docker sandboxing with CPU/memory/time/network/file limits
+- Strict input validation
+- Resource quotas per execution
+
+---
+
+## 11. Observability
+
+- Metrics (compilation times, memory, container usage, errors)
+- Distributed tracing
+- CloudWatch integration
+
+---
+
+## 12. Cloud Deployment
+
+- Docker containerization
+- Kubernetes orchestration
+- AWS infrastructure (ECS/EKS, RDS PostgreSQL, CloudWatch, ALB, IAM)
+- Terraform provisioning
+
+---
+
+## 13. Governance Rules
+
+1. All code must be designed for observability — every component must expose its runtime state
+2. Visualizations must update in real-time via WebSockets
+3. The platform must never allow unsafe code execution — all user code runs in sandboxed containers
+4. Every major JVM concept must have a dedicated visualizer
+5. The editor must support at minimum all Java 21 language features
+6. All visualizations must be intuitive and self-documenting
+7. Performance must never block the user interface
+
+---
+
+## 14. Future Extensions
+
+- JVM Performance Profiler
+- SQL Execution Visualizer
+- Spring Boot Internals Explorer
+- Kafka Internals Explorer
+- Distributed Systems Simulator
+- JVM Interview Mode
+- Bytecode Editor
+- AI Tutor integration
+- Live Collaboration
+- Plugin Marketplace
+
+---
+
+## 15. Success Criteria
+
+The project succeeds when a user can write any Java code and immediately observe the full lifecycle — from source to bytecode to execution to memory effects — in a single, intuitive interface.
+
+---
+
+*This Constitution governs all development and specification of JVM Explorer.*

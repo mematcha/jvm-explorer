@@ -1,0 +1,12 @@
+{
+  "name": "jvm-explorer",
+  "template": "web-app",
+  "version": "1.0.0",
+  "createdAt": "2026-07-25T23:02:34.757Z",
+  "specifications": {},
+  "rules": [],
+  "integrations": {
+    "mcp": [],
+    "notion": null
+  }
+}

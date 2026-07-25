@@ -836,6 +836,237 @@ html, body, #root {
   opacity: 0.9;
 }
 
+.learning-lab {
+  display: flex;
+  height: 100%;
+}
+
+.ll-sidebar {
+  width: 220px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 0.75rem;
+  flex-shrink: 0;
+}
+
+.ll-sidebar h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.ll-module {
+  margin-bottom: 0.5rem;
+}
+
+.ll-module-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.ll-module-header:hover {
+  background: var(--surface);
+}
+
+.ll-module-header.active {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.ll-level-badge {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.ll-module:nth-child(1) .ll-level-badge { background: rgba(63,185,80,0.15); color: var(--success); }
+.ll-module:nth-child(2) .ll-level-badge { background: rgba(88,166,255,0.15); color: var(--accent); }
+.ll-module:nth-child(3) .ll-level-badge { background: rgba(210,153,34,0.15); color: var(--warning); }
+.ll-module:nth-child(4) .ll-level-badge { background: rgba(210,153,34,0.15); color: var(--warning); }
+.ll-module:nth-child(5) .ll-level-badge { background: rgba(248,81,73,0.15); color: var(--danger); }
+
+.ll-lesson-list {
+  margin-left: 1rem;
+}
+
+.ll-lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.ll-lesson-item:hover {
+  background: var(--surface);
+}
+
+.ll-lesson-item.active {
+  color: var(--accent);
+}
+
+.ll-lesson-item.completed {
+  color: var(--text-secondary);
+}
+
+.ll-check {
+  font-size: 0.7rem;
+  width: 14px;
+}
+
+.ll-lesson-item.completed .ll-check {
+  color: var(--success);
+}
+
+.ll-content {
+  flex: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.ll-welcome h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.ll-welcome p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.ll-hint {
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.ll-lesson h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ll-desc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.ll-concepts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.ll-concept-tag {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  background: rgba(88,166,255,0.1);
+  border: 1px solid rgba(88,166,255,0.3);
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+.ll-code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  background: var(--bg);
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.checkpoint-btn {
+  display: block;
+  width: 100%;
+  background: var(--warning);
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.75rem;
+}
+
+.ll-checkpoint {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.ll-checkpoint h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.ll-checkpoint p {
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.checkpoint-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkpoint-option {
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.checkpoint-option:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.checkpoint-option.correct {
+  border-color: var(--success);
+  background: rgba(63,185,80,0.1);
+}
+
+.checkpoint-option.wrong {
+  border-color: var(--danger);
+  background: rgba(248,81,73,0.1);
+}
+
+.checkpoint-option:disabled {
+  cursor: default;
+}
+
+.checkpoint-explanation {
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
 .dashboard {
   display: flex;
   flex-direction: column;

@@ -12,10 +12,11 @@ import { MemoryExplorer } from './components/MemoryExplorer';
 import { SyncLab } from './components/SyncLab';
 import { CollectionsExplorer } from './components/CollectionsExplorer';
 import { ExceptionExplorer } from './components/ExceptionExplorer';
+import { LearningLab } from './components/LearningLab';
 import { useStore } from './stores/appStore';
 import { connectWebSocket, disconnectWebSocket } from './services/websocket';
 
-type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory' | 'sync' | 'collections' | 'exceptions';
+type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory' | 'sync' | 'collections' | 'exceptions' | 'learn';
 
 export default function App() {
   const user = useStore((s) => s.user);
@@ -60,6 +61,7 @@ export default function App() {
     { key: 'exceptions', label: 'Exceptions' },
     { key: 'classloader', label: 'Classes' },
     { key: 'memory', label: 'Memory' },
+    { key: 'learn', label: 'Learn' },
   ];
 
   return (
@@ -91,6 +93,7 @@ export default function App() {
             {activeTab === 'sync' && <SyncLab />}
             {activeTab === 'collections' && <CollectionsExplorer />}
             {activeTab === 'exceptions' && <ExceptionExplorer />}
+            {activeTab === 'learn' && <LearningLab />}
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useStore } from '../stores/appStore';
 import { api } from '../services/api';
+import { ShareDialog } from './ShareDialog';
 
 const TEMPLATES: Record<string, string> = {
   'Hello World': `public class Main {
@@ -17,20 +18,15 @@ public class Main {
         map.put("two", 2);
         map.put("three", 3);
         System.out.println("HashMap: " + map);
-        System.out.println("Collisions: bucket count may vary");
     }
 }`,
   'Thread Demo': `public class Main {
     public static void main(String[] args) throws Exception {
         var t1 = new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                System.out.println("Thread 1: " + i);
-            }
+            for (int i = 0; i < 5; i++) System.out.println("Thread 1: " + i);
         });
         var t2 = new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                System.out.println("Thread 2: " + i);
-            }
+            for (int i = 0; i < 5; i++) System.out.println("Thread 2: " + i);
         });
         t1.start(); t2.start();
         t1.join(); t2.join();
@@ -60,12 +56,12 @@ export function CodeEditor() {
   const setCompilationResult = useStore((s) => s.setCompilationResult);
   const setExecutionResult = useStore((s) => s.setExecutionResult);
 
-  const className = extractClassName(code) || 'Main';
+  const className = code.match(/public\s+(?:class|record)\s+(\w+)/)?.[1] || 'Main';
+  const [showShare, setShowShare] = useState(false);
 
   const handleRun = useCallback(async () => {
     const compileResult = await api.compile(className, code);
     setCompilationResult({ ...compileResult, classBytes: {} });
-
     if (compileResult.success) {
       const execResult = await api.execute(className, code);
       setExecutionResult({ ...execResult, errors: execResult.stderr ? [execResult.stderr] : [] });
@@ -75,38 +71,22 @@ export function CodeEditor() {
   return (
     <div className="code-editor-panel">
       <div className="editor-toolbar">
-        <select onChange={(e) => {
-          const template = TEMPLATES[e.target.value];
-          if (template) setCode(template);
-        }}>
+        <select onChange={(e) => { const t = TEMPLATES[e.target.value]; if (t) setCode(t); }}>
           <option value="">Templates</option>
-          {Object.keys(TEMPLATES).map((name) => (
-            <option key={name} value={name}>{name}</option>
-          ))}
+          {Object.keys(TEMPLATES).map((n) => <option key={n} value={n}>{n}</option>)}
         </select>
+        <button className="share-btn" onClick={() => setShowShare(true)}>Share</button>
         <button className="run-btn" onClick={handleRun}>▶ Run</button>
       </div>
       <div className="editor-container">
         <MonacoEditor
-          height="100%"
-          language="java"
-          theme="vs-dark"
+          height="100%" language="java" theme="vs-dark"
           value={code}
           onChange={(val) => setCode(val ?? '')}
-          options={{
-            minimap: { enabled: false },
-            fontSize: 14,
-            lineNumbers: 'on',
-            scrollBeyondLastLine: false,
-            automaticLayout: true,
-          }}
+          options={{ minimap: { enabled: false }, fontSize: 14, lineNumbers: 'on', scrollBeyondLastLine: false, automaticLayout: true }}
         />
       </div>
+      {showShare && <ShareDialog onClose={() => setShowShare(false)} />}
     </div>
   );
-}
-
-function extractClassName(code: string): string | null {
-  const match = code.match(/public\s+(?:class|record)\s+(\w+)/);
-  return match ? match[1] : null;
 }

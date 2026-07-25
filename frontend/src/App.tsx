@@ -13,10 +13,11 @@ import { SyncLab } from './components/SyncLab';
 import { CollectionsExplorer } from './components/CollectionsExplorer';
 import { ExceptionExplorer } from './components/ExceptionExplorer';
 import { LearningLab } from './components/LearningLab';
+import { PublicGallery } from './components/PublicGallery';
 import { useStore } from './stores/appStore';
 import { connectWebSocket, disconnectWebSocket } from './services/websocket';
 
-type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory' | 'sync' | 'collections' | 'exceptions' | 'learn';
+type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory' | 'sync' | 'collections' | 'exceptions' | 'learn' | 'gallery';
 
 export default function App() {
   const user = useStore((s) => s.user);
@@ -62,6 +63,7 @@ export default function App() {
     { key: 'classloader', label: 'Classes' },
     { key: 'memory', label: 'Memory' },
     { key: 'learn', label: 'Learn' },
+    { key: 'gallery', label: 'Gallery' },
   ];
 
   return (
@@ -94,6 +96,7 @@ export default function App() {
             {activeTab === 'collections' && <CollectionsExplorer />}
             {activeTab === 'exceptions' && <ExceptionExplorer />}
             {activeTab === 'learn' && <LearningLab />}
+            {activeTab === 'gallery' && <PublicGallery />}
           </div>
         </div>
       </div>

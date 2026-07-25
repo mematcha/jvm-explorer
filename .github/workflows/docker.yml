@@ -1,0 +1,16 @@
+name: Docker Images
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**', 'frontend/**', 'docker-compose.yml']
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -t jvm-explorer-backend ./backend
+      - name: Build frontend image
+        run: docker build -t jvm-explorer-frontend ./frontend

@@ -44,4 +44,10 @@ export const api = {
 
   getSnapshot: () =>
     request<unknown>('/api/instrumentation/snapshot'),
+
+  disassemble: (className: string, sourceCode: string) =>
+    request<{ success: boolean; classes: { name: string; bytecode: string }[]; errors: string[] }>(
+      '/api/bytecode',
+      { method: 'POST', body: JSON.stringify({ className, sourceCode }) }
+    ),
 };

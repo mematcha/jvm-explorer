@@ -1,28 +1,27 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthPage } from './components/AuthPage';
 import { JvmDashboard } from './components/JvmDashboard';
 import { CodeEditor } from './components/CodeEditor';
 import { OutputPanel } from './components/OutputPanel';
+import { BytecodeExplorer } from './components/BytecodeExplorer';
+import { StackHeapVisualizer } from './components/StackHeapVisualizer';
 import { useStore } from './stores/appStore';
 import { connectWebSocket, disconnectWebSocket } from './services/websocket';
+
+type Tab = 'dashboard' | 'bytecode' | 'stackheap';
 
 export default function App() {
   const user = useStore((s) => s.user);
   const token = useStore((s) => s.token);
+  const [activeTab, setActiveTab] = useState<Tab>('dashboard');
 
   useEffect(() => {
-    if (token && !user) {
-      fetchUser();
-    }
+    if (token && !user) fetchUser();
   }, [token]);
 
   useEffect(() => {
-    if (user) {
-      connectWebSocket();
-    }
-    return () => {
-      disconnectWebSocket();
-    };
+    if (user) connectWebSocket();
+    return () => { disconnectWebSocket(); };
   }, [user]);
 
   async function fetchUser() {
@@ -56,7 +55,16 @@ export default function App() {
           <OutputPanel />
         </div>
         <div className="right-panel">
-          <JvmDashboard />
+          <div className="right-panel-tabs">
+            <button className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>JVM</button>
+            <button className={activeTab === 'bytecode' ? 'active' : ''} onClick={() => setActiveTab('bytecode')}>Bytecode</button>
+            <button className={activeTab === 'stackheap' ? 'active' : ''} onClick={() => setActiveTab('stackheap')}>Stack/Heap</button>
+          </div>
+          <div className="right-panel-content">
+            {activeTab === 'dashboard' && <JvmDashboard />}
+            {activeTab === 'bytecode' && <BytecodeExplorer />}
+            {activeTab === 'stackheap' && <StackHeapVisualizer />}
+          </div>
         </div>
       </div>
     </div>

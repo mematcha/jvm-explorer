@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { AuthPage } from './components/AuthPage';
 import { JvmDashboard } from './components/JvmDashboard';
+import { CodeEditor } from './components/CodeEditor';
+import { OutputPanel } from './components/OutputPanel';
 import { useStore } from './stores/appStore';
 import { connectWebSocket, disconnectWebSocket } from './services/websocket';
 
@@ -38,7 +40,7 @@ export default function App() {
   }
 
   if (!user) {
-    return <AuthPage onSuccess={() => {}} />;
+    return <AuthPage onSuccess={() => fetchUser()} />;
   }
 
   return (
@@ -48,9 +50,15 @@ export default function App() {
         <span className="user-info">{user.username}</span>
         <button onClick={() => useStore.getState().logout()}>Logout</button>
       </header>
-      <main className="app-main">
-        <JvmDashboard />
-      </main>
+      <div className="app-body">
+        <div className="left-panel">
+          <CodeEditor />
+          <OutputPanel />
+        </div>
+        <div className="right-panel">
+          <JvmDashboard />
+        </div>
+      </div>
     </div>
   );
 }

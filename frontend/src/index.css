@@ -90,34 +90,10 @@ html, body, #root {
 
 .right-panel {
   flex: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   min-width: 200px;
   border-left: 1px solid var(--border);
-}
-
-.viz-row {
-  border-bottom: 1px solid var(--border);
-}
-
-.viz-row:last-child {
-  border-bottom: none;
-}
-
-.viz-row .bytecode-explorer,
-.viz-row .stack-heap-visualizer,
-.viz-row .thread-explorer,
-.viz-row .gc-explorer,
-.viz-row .memory-explorer,
-.viz-row .classloader-explorer,
-.viz-row .sync-lab,
-.viz-row .collections-explorer,
-.viz-row .exception-explorer,
-.viz-row .gallery,
-.viz-row .learning-lab {
-  height: auto;
-  min-height: 120px;
-  max-height: 300px;
-  overflow-y: auto;
 }
 
 .code-editor-panel {
@@ -469,6 +445,34 @@ html, body, #root {
 
 .pool-value {
   font-variant-numeric: tabular-nums;
+}
+
+.right-panel-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.right-panel-tabs button {
+  flex: 1 0 30%;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.5rem 0.3rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.right-panel-tabs button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.right-panel-content {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .classloader-explorer {

@@ -17,10 +17,13 @@ import { PublicGallery } from './components/PublicGallery';
 import { useStore } from './stores/appStore';
 import { connectWebSocket, disconnectWebSocket } from './services/websocket';
 
+type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 'gc' | 'memory' | 'sync' | 'collections' | 'exceptions' | 'learn' | 'gallery';
+
 export default function App() {
   const user = useStore((s) => s.user);
   const token = useStore((s) => s.token);
   const snapshot = useStore((s) => s.snapshot);
+  const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [leftWidth, setLeftWidth] = useState(50);
   const [dragging, setDragging] = useState(false);
   const inactivityRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -91,6 +94,21 @@ export default function App() {
     return <AuthPage onSuccess={() => fetchUser()} />;
   }
 
+  const tabs: { key: Tab; label: string }[] = [
+    { key: 'dashboard', label: 'JVM' },
+    { key: 'bytecode', label: 'Bytecode' },
+    { key: 'stackheap', label: 'Stack/Heap' },
+    { key: 'threads', label: 'Threads' },
+    { key: 'sync', label: 'Sync' },
+    { key: 'gc', label: 'GC' },
+    { key: 'collections', label: 'Collections' },
+    { key: 'exceptions', label: 'Exceptions' },
+    { key: 'classloader', label: 'Classes' },
+    { key: 'memory', label: 'Memory' },
+    { key: 'learn', label: 'Learn' },
+    { key: 'gallery', label: 'Gallery' },
+  ];
+
   return (
     <div className="app">
       <header className="app-header">
@@ -106,18 +124,25 @@ export default function App() {
         </div>
         <div className="drag-handle" onMouseDown={() => setDragging(true)} />
         <div className="right-panel">
-          <div className="viz-row"><JvmDashboard /></div>
-          <div className="viz-row"><BytecodeExplorer /></div>
-          <div className="viz-row"><StackHeapVisualizer /></div>
-          <div className="viz-row"><ThreadExplorer /></div>
-          <div className="viz-row"><GcExplorer /></div>
-          <div className="viz-row"><ClassLoaderExplorer /></div>
-          <div className="viz-row"><MemoryExplorer /></div>
-          <div className="viz-row"><SyncLab /></div>
-          <div className="viz-row"><CollectionsExplorer /></div>
-          <div className="viz-row"><ExceptionExplorer /></div>
-          <div className="viz-row"><LearningLab /></div>
-          <div className="viz-row"><PublicGallery /></div>
+          <div className="right-panel-tabs">
+            {tabs.map((t) => (
+              <button key={t.key} className={activeTab === t.key ? 'active' : ''} onClick={() => setActiveTab(t.key)}>{t.label}</button>
+            ))}
+          </div>
+          <div className="right-panel-content">
+            {activeTab === 'dashboard' && <JvmDashboard />}
+            {activeTab === 'bytecode' && <BytecodeExplorer />}
+            {activeTab === 'stackheap' && <StackHeapVisualizer />}
+            {activeTab === 'threads' && <ThreadExplorer />}
+            {activeTab === 'gc' && <GcExplorer />}
+            {activeTab === 'classloader' && <ClassLoaderExplorer />}
+            {activeTab === 'memory' && <MemoryExplorer />}
+            {activeTab === 'sync' && <SyncLab />}
+            {activeTab === 'collections' && <CollectionsExplorer />}
+            {activeTab === 'exceptions' && <ExceptionExplorer />}
+            {activeTab === 'learn' && <LearningLab />}
+            {activeTab === 'gallery' && <PublicGallery />}
+          </div>
         </div>
       </div>
     </div>

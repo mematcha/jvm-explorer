@@ -1,10 +1,14 @@
-import { useState } from 'react';
-import { curriculum, type Module, type Lesson } from '../data/curriculum';
+import { useState, useEffect } from 'react';
+import { type CurriculumModule, type Lesson } from '../data/curriculum';
 import { useStore } from '../stores/appStore';
 import { useProgress } from '../stores/progressStore';
+import { api } from '../services/api';
 
 export function LearningLab() {
-  const [activeModule, setActiveModule] = useState<Module>(curriculum[0]);
+  const [curriculum, setCurriculum] = useState<CurriculumModule[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [activeModule, setActiveModule] = useState<CurriculumModule | null>(null);
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const setCode = useStore((s) => s.setCode);
   const { completeLesson, isCompleted, setCurrentLesson } = useProgress();
@@ -12,9 +16,19 @@ export function LearningLab() {
   const [checkpointAnswer, setCheckpointAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
 
+  useEffect(() => {
+    api.getCurriculum()
+      .then((data) => {
+        setCurriculum(data);
+        if (data.length > 0) setActiveModule(data[0]);
+      })
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
   const handleSelectLesson = (lesson: Lesson) => {
     setActiveLesson(lesson);
-    setCurrentLesson(lesson.id);
+    setCurrentLesson(lesson.lessonId);
     setShowCheckpoint(false);
     setCheckpointAnswer(null);
     setShowResult(false);
@@ -23,7 +37,7 @@ export function LearningLab() {
   const handleLoadCode = () => {
     if (activeLesson) {
       setCode(activeLesson.code);
-      completeLesson(activeLesson.id);
+      completeLesson(activeLesson.lessonId);
     }
   };
 
@@ -31,32 +45,44 @@ export function LearningLab() {
     setCheckpointAnswer(index);
     setShowResult(true);
     if (activeLesson?.checkpoint && index === activeLesson.checkpoint.correctIndex) {
-      completeLesson(activeLesson.id);
+      completeLesson(activeLesson.lessonId);
     }
   };
+
+  if (loading) {
+    return <div className="learning-lab"><div className="ll-loading">Loading curriculum...</div></div>;
+  }
+
+  if (error) {
+    return <div className="learning-lab"><div className="ll-error">Failed to load curriculum: {error}</div></div>;
+  }
+
+  if (curriculum.length === 0) {
+    return <div className="learning-lab"><div className="ll-error">No curriculum available</div></div>;
+  }
 
   return (
     <div className="learning-lab">
       <div className="ll-sidebar">
         <h3>Curriculum</h3>
         {curriculum.map((mod) => (
-          <div key={mod.id} className="ll-module">
+          <div key={mod.moduleId} className="ll-module">
             <div
-              className={`ll-module-header ${activeModule.id === mod.id ? 'active' : ''}`}
+              className={`ll-module-header ${activeModule?.moduleId === mod.moduleId ? 'active' : ''}`}
               onClick={() => { setActiveModule(mod); setActiveLesson(null); }}
             >
               <span className="ll-level-badge">{mod.level}</span>
               <span>{mod.title}</span>
             </div>
-            {activeModule.id === mod.id && (
+            {activeModule?.moduleId === mod.moduleId && (
               <div className="ll-lesson-list">
                 {mod.lessons.map((lesson) => (
                   <div
-                    key={lesson.id}
-                    className={`ll-lesson-item ${activeLesson?.id === lesson.id ? 'active' : ''} ${isCompleted(lesson.id) ? 'completed' : ''}`}
+                    key={lesson.lessonId}
+                    className={`ll-lesson-item ${activeLesson?.lessonId === lesson.lessonId ? 'active' : ''} ${isCompleted(lesson.lessonId) ? 'completed' : ''}`}
                     onClick={() => handleSelectLesson(lesson)}
                   >
-                    <span className="ll-check">{isCompleted(lesson.id) ? '✓' : '○'}</span>
+                    <span className="ll-check">{isCompleted(lesson.lessonId) ? '✓' : '○'}</span>
                     <span>{lesson.title}</span>
                   </div>
                 ))}
@@ -67,7 +93,7 @@ export function LearningLab() {
       </div>
 
       <div className="ll-content">
-        {!activeLesson && (
+        {!activeLesson && activeModule && (
           <div className="ll-welcome">
             <h2>{activeModule.title}</h2>
             <p>{activeModule.description}</p>

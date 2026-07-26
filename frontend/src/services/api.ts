@@ -1,3 +1,5 @@
+import type { CurriculumModule } from '../data/curriculum';
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -50,4 +52,6 @@ export const api = {
       '/api/bytecode',
       { method: 'POST', body: JSON.stringify({ className, sourceCode }) }
     ),
+
+  getCurriculum: () => request<CurriculumModule[]>('/api/curriculum'),
 };

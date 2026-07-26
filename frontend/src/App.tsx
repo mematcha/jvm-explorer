@@ -24,6 +24,8 @@ export default function App() {
   const token = useStore((s) => s.token);
   const snapshot = useStore((s) => s.snapshot);
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const [leftWidth, setLeftWidth] = useState(50);
+  const [dragging, setDragging] = useState(false);
   const inactivityRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const clearData = useCallback(() => {
@@ -58,6 +60,21 @@ export default function App() {
       };
     }
   }, [user, resetInactivityTimer, clearData]);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e: MouseEvent) => {
+      const pct = (e.clientX / window.innerWidth) * 100;
+      setLeftWidth(Math.min(Math.max(pct, 25), 75));
+    };
+    const onUp = () => setDragging(false);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+  }, [dragging]);
 
   async function fetchUser() {
     try {
@@ -100,11 +117,12 @@ export default function App() {
         {snapshot && <button className="clear-btn" onClick={clearData}>Clear</button>}
         <button onClick={() => useStore.getState().logout()}>Logout</button>
       </header>
-      <div className="app-body">
-        <div className="left-panel">
+      <div className="app-body" style={{ cursor: dragging ? 'col-resize' : undefined }}>
+        <div className="left-panel" style={{ width: `${leftWidth}%` }}>
           <CodeEditor />
           <OutputPanel />
         </div>
+        <div className="drag-handle" onMouseDown={() => setDragging(true)} />
         <div className="right-panel">
           <div className="right-panel-tabs">
             {tabs.map((t) => (

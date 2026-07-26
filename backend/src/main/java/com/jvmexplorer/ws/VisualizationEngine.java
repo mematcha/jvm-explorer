@@ -44,9 +44,7 @@ public class VisualizationEngine {
 
         try {
             var snapshot = instrumentation.captureSnapshot();
-            var destination = sessionId != null
-                    ? "/queue/visualization" : "/topic/visualization";
-            messaging.convertAndSend(destination,
+            messaging.convertAndSend("/topic/visualization",
                     new WsMessage("jvm_snapshot", snapshot));
         } catch (Exception e) {
             log.error("Failed to stream snapshot", e);

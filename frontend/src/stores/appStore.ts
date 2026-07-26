@@ -16,6 +16,7 @@ interface AppState {
   setExecutionResult: (result: ExecutionResult) => void;
   setCode: (code: string) => void;
   setConnected: (connected: boolean) => void;
+  clearData: () => void;
   logout: () => void;
 }
 
@@ -39,8 +40,9 @@ export const useStore = create<AppState>((set) => ({
   setExecutionResult: (result) => set({ executionResult: result }),
   setCode: (code) => set({ code }),
   setConnected: (connected) => set({ connected }),
+  clearData: () => set({ snapshot: null, compilationResult: null, executionResult: null }),
   logout: () => {
     localStorage.removeItem('token');
-    set({ user: null, token: null });
+    set({ user: null, token: null, snapshot: null, compilationResult: null, executionResult: null });
   },
 }));

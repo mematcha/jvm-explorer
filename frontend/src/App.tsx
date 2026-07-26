@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { AuthPage } from './components/AuthPage';
 import { JvmDashboard } from './components/JvmDashboard';
 import { CodeEditor } from './components/CodeEditor';
@@ -22,16 +22,42 @@ type Tab = 'dashboard' | 'bytecode' | 'stackheap' | 'classloader' | 'threads' | 
 export default function App() {
   const user = useStore((s) => s.user);
   const token = useStore((s) => s.token);
+  const snapshot = useStore((s) => s.snapshot);
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const inactivityRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const clearData = useCallback(() => {
+    useStore.getState().clearData();
+    disconnectWebSocket();
+  }, []);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityRef.current) clearTimeout(inactivityRef.current);
+    inactivityRef.current = setTimeout(() => {
+      clearData();
+    }, 5 * 60 * 1000);
+  }, [clearData]);
 
   useEffect(() => {
     if (token && !user) fetchUser();
   }, [token]);
 
   useEffect(() => {
-    if (user) connectWebSocket();
-    return () => { disconnectWebSocket(); };
-  }, [user]);
+    if (user) {
+      connectWebSocket();
+      resetInactivityTimer();
+      const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'] as const;
+      events.forEach((e) => window.addEventListener(e, resetInactivityTimer));
+      const onUnload = () => clearData();
+      window.addEventListener('beforeunload', onUnload);
+      return () => {
+        disconnectWebSocket();
+        if (inactivityRef.current) clearTimeout(inactivityRef.current);
+        events.forEach((e) => window.removeEventListener(e, resetInactivityTimer));
+        window.removeEventListener('beforeunload', onUnload);
+      };
+    }
+  }, [user, resetInactivityTimer, clearData]);
 
   async function fetchUser() {
     try {
@@ -71,6 +97,7 @@ export default function App() {
       <header className="app-header">
         <h1>JVM Explorer</h1>
         <span className="user-info">{user.username}</span>
+        {snapshot && <button className="clear-btn" onClick={clearData}>Clear</button>}
         <button onClick={() => useStore.getState().logout()}>Logout</button>
       </header>
       <div className="app-body">
